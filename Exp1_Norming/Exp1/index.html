@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>Find the Fep</title>
+    <title>Rating Similarity Task</title>
 
     <!--JS-->
 
@@ -44,7 +44,7 @@
     <div style="float:left; width:20%"><img src="../_shared/images/university.png" alt="UofR colala" height=100 id="colalalogo"></img></div>
     <div style="float:right; width:80%"><p id="colala">The University of Rochester's Computation and Language Lab (colala)</p></div>
     <div style="float:left; margin:0; height:100%">
-    <p id="instruct-text">You will be asked to rate the similarity between images. The HIT should take ~10 minutes. Please pay attention, thanks!</p>
+    <p id="instruct-text">You will be asked to rate the similarity between images. The HIT should take ~20 minutes. Please pay attention, thanks!</p>
     <button id="start_button" type="button">Start Experiment</button>
     <p id="legal">Legal information: By answering the following questions, you are participating in a study being performed by cognitive scientists in the University of Rochester Department of Brain and Cognitive Sciences. If you have questions about this research, please contact Lauren Oey at <a href="mailto://loey@u.rochester.edu">loey@u.rochester.edu</a>. You must be  at least 18 years old to participate. Your participation in this research is voluntary. You may decline to answer any or all of the following questions. You may decline further participation, at any time, without adverse consequences. Your anonymity is assured; the researchers who have requested your participation will not receive any personal information about you.</p>
     </div>
@@ -92,8 +92,7 @@
     <p>Adjust the slider to rate the similarity between these two images:</p>
     <div class="present_images">
       <div id="column1" style="float:left; margin:0; width:50%">
-        <!--<img class="img_prototype" height=250 src="img/stim_whiteFill_v12x112.5y187.5_v23x112.5y137.5_v13x50y150.png">-->
-        <img class="img_prototype" height=250 src="img/Draw_White_0.svg">
+        <img id="img_prototype" height=250>
       </div>
       <div id="column2" style="float:left; margin:0; width:50%">
         <img id="img_comparison" height=250> <!--nonexistent image; image placeholder-->
