@@ -1,0 +1,7 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="200px" height="200px" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" version="1.1">
+<title>Example</title>
+<desc>Just a stage</desc>
+<path d='M 45 40C 107.06540517111989 48.867486004300154 103.4140235685991 48.15308525598086 160 62.5 C 142.20084509756438 90.99582663413992 112.32162175028472 126.02664021370919 87.5 147.5 C 74.27152603108125 115.24912113181365 74.27152603108125 104.64671902826971 80 70C 49.37732372230818 98.18699705218617 49.37732372230818 79.2088431078972 45 40' fill="black" stroke-dasharray="[0,0]" stroke="black" stroke-width="5"/>
+</svg>

@@ -1,0 +1,354 @@
+<html>
+
+<head>
+    <title>Is It a Fep?</title>
+
+    <!--JS-->
+
+    <!-- external general utilities -->
+    <script src="../_shared/js/jquery-1.11.1.min.js "></script>
+    <script src="../_shared/full-projects/jquery-ui/jquery-ui.min.js"></script>
+    <script src="../_shared/js/underscore-min.js"></script>
+    <!-- if you want to draw stuff: -->
+    <!-- <script src="../_shared/js/raphael-min.js"></script> -->
+
+    <!-- cocolab experiment logic -->
+    <script src="../_shared/js/exp-V2.js"></script>
+    <script src="../_shared/js/stream-V2.js"></script>
+
+    <!-- cocolab general utilities -->
+    <script src="../_shared/js/mmturkey.js "></script>
+    <script src="../_shared/js/browserCheck.js"></script>
+    <script src="../_shared/js/utils.js"></script>
+    <!-- if you want to draw cute creatures (depends on raphael): -->
+    <!-- <script src="../_shared/js/ecosystem.js"></script> -->
+
+    <!-- experiment specific helper functions -->
+    <!-- <script src="js/local-utils.js"></script> -->
+
+    <!--CSS-->
+    <link href="../_shared/full-projects/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
+    <link href="../_shared/css/cocolab-style.css" rel="stylesheet" type="text/css"/>
+    <link href="css/local-style.css" rel="stylesheet" type="text/css"/>
+
+    <!-- experiment file -->
+    <script src="js/zebra.js"></script>
+
+</head>
+
+<body onload="init();">
+  <noscript>This task requires JavaScript.</noscript>
+
+  <div class="slide" id="i0">
+    <br><br>
+    <div style="float:left; width:20%"><img src="../_shared/images/university.png" alt="UofR colala" height=100 id="colalalogo"></img></div>
+    <div style="float:right; width:80%"><p id="colala">The University of Rochester's Computation and Language Lab (colala)</p></div>
+    <div style="float:left; margin:0; height:100%">
+    <p id="instruct-text">You will learn what a <i>fep</i> is, then you'll be asked to judge whether new objects are also <i>feps</i>. The HIT should take ~10 minutes. Please pay attention, thanks!</p>
+    <button id="start_button" type="button">Start Experiment</button>
+    <p id="legal">Legal information: By answering the following questions, you are participating in a study being performed by cognitive scientists in the University of Rochester Department of Brain and Cognitive Sciences. If you have questions about this research, please contact Lauren Oey at <a href="mailto://loey@u.rochester.edu">loey@u.rochester.edu</a>. You must be  at least 18 years old to participate. Your participation in this research is voluntary. You may decline to answer any or all of the following questions. You may decline further participation, at any time, without adverse consequences. Your anonymity is assured; the researchers who have requested your participation will not receive any personal information about you.</p>
+    </div>
+  </div>
+
+  <div class="slide" id="instructions">
+    <h3>Instructions</h3>
+    <p>You will be presented with <i>feps</i> and then you will have to decide if the new objects are also <i>feps</i>. These are some examples of the objects you will see:</p> 
+    <table class="instr_examples" width=80%> <!--2x4 table of example stimuli-->
+      <tr>
+        <td id="cell0" style="margin:0; height:20%">
+          <img class="img_example" id="img_example0" height=100>
+        </td>
+        <td id="cell1" style="margin:0; width:20%">
+          <img class="img_example" id="img_example1" height=100> 
+        </td>
+        <td id="cell2" style="margin:0; width:20%">
+          <img class="img_example" id="img_example2" height=100>
+        </td>
+        <td id="cell3" style="margin:0; width:20%">
+          <img class="img_example" id="img_example3" height=100>
+        </td>
+      </tr>
+      <tr>
+        <td id="cell4" style="margin:0; width:20%">
+          <img class="img_example" id="img_example4" height=100>
+        </td>
+        <td id="cell5" style="margin:0; width:20%">
+          <img class="img_example" id="img_example5" height=100> 
+        </td>
+        <td id="cell6" style="margin:0; width:20%">
+          <img class="img_example" id="img_example6" height=100>
+        </td>
+        <td id="cell7" style="margin:0; width:20%">
+          <img class="img_example" id="img_example7" height=100>
+        </td>
+      </tr>
+    </table>
+    <p>You will record your answer below each image. Use your best judgement. There will be a total of 6 trials. Thank you!</p>
+    <button onclick="_s.button()">Continue</button>
+  </div>
+
+
+  <div class="slide" id="trial">
+    <p id="fep_statement"></p>
+    <div class="present_image">
+      <table id="present_feps">
+        <td style="margin:0; width:16.6%">
+          <img class="fep_example" id="example0" height=100>
+        </td>
+        <td style="margin:0; width:16.6%">
+          <img class="fep_example" id="example1" height=100>
+        </td>
+        <td style="margin:0; width:16.6%">
+          <img class="fep_example" id="example2" height=100>
+        </td>
+        <td style="margin:0; width:16.6%">
+          <img class="fep_example" id="example3" height=100>
+        </td>
+        <td style="margin:0; width:16.6%">
+          <img class="fep_example" id="example4" height=100>
+        </td>
+        <td style="margin:0; width:16.6%">
+          <img class="fep_example" id="example5" height=100>
+        </td>
+      </table>
+    </div>
+    <p>Are these also <i>feps</i>?</p>
+    <table id="test_objects" style="width:80%">
+      <tr style="margin:0">
+        <td style="margin:0; width:20%">
+          <table>
+            <tr>
+              <img class="test_image" id="test0">
+            </tr>
+            <tr>
+              <td class="radioq" id="radioq0">
+                <label><input type="radio"  name="testq0" value="yes"/>yes</label>
+                <label><input type="radio"  name="testq0" value="no"/>no</label>
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td style="margin:0; width:20%">
+          <table>
+            <tr>
+              <img class="test_image" id="test1">
+            </tr>
+            <tr>
+              <td class="radioq" id="radioq1">
+                <label><input type="radio"  name="testq1" value="yes"/>yes</label>
+                <label><input type="radio"  name="testq1" value="no"/>no</label>
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td style="margin:0; width:20%">
+          <table>
+            <tr>
+              <img class="test_image" id="test2">
+            </tr>
+            <tr>
+              <td class="radioq" id="radioq2">
+                <label><input type="radio"  name="testq2" value="yes"/>yes</label>
+                <label><input type="radio"  name="testq2" value="no"/>no</label>
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td style="margin:0; width:20%">
+          <table>
+            <tr>
+              <img class="test_image" id="test3">
+            </tr>
+            <tr>
+              <td class="radioq" id="radioq3">
+                <label><input type="radio"  name="testq3" value="yes"/>yes</label>
+                <label><input type="radio"  name="testq3" value="no"/>no</label>
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td style="margin:0; width:20%">
+          <table>
+            <tr>
+              <img class="test_image" id="test4">
+            </tr>
+            <tr>
+              <td class="radioq" id="radioq4">
+                <label><input type="radio"  name="testq4" value="yes"/>yes</label>
+                <label><input type="radio"  name="testq4" value="no"/>no</label>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr> 
+        <td style="margin:0; width:20%">
+          <table>
+            <tr>
+              <img class="test_image" id="test5">
+            </tr>
+            <tr>
+              <td class="radioq" id="radioq5">
+                <label><input type="radio"  name="testq5" value="yes"/>yes</label>
+                <label><input type="radio"  name="testq5" value="no"/>no</label>
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td style="margin:0; width:20%">
+          <table>
+            <tr>
+              <img class="test_image" id="test6">
+            </tr>
+            <tr>
+              <td class="radioq" id="radioq6">
+                <label><input type="radio"  name="testq6" value="yes"/>yes</label>
+                <label><input type="radio"  name="testq6" value="no"/>no</label>
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td style="margin:0; width:20%">
+          <table>
+            <tr>
+              <img class="test_image" id="test7">
+            </tr>
+            <tr>
+              <td class="radioq" id="radioq7">
+                <label><input type="radio"  name="testq7" value="yes"/>yes</label>
+                <label><input type="radio"  name="testq7" value="no"/>no</label>
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td style="margin:0; width:20%">
+          <table>
+            <tr>
+              <img class="test_image" id="test8">
+            </tr>
+            <tr>
+              <td class="radioq" id="radioq8">
+                <label><input type="radio"  name="testq8" value="yes"/>yes</label>
+                <label><input type="radio"  name="testq8" value="no"/>no</label>
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td style="margin:0; width:20%">
+          <table>
+            <tr>
+              <img class="test_image" id="test9">
+            </tr>
+            <tr>
+              <td class="radioq" id="radioq9">
+                <label><input type="radio"  name="testq9" value="yes"/>yes</label>
+                <label><input type="radio"  name="testq9" value="no"/>no</label>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    <br>
+    <button id="trial_button" onclick="_s.button()">Continue</button>
+    <div class="err" id="trial_err">Please decide whether each object is a <i>fep</i>.</div>
+  </div>
+
+  <div class="slide" id="description_instruction">
+    <br><br>
+    <p>For the next part of the task, you will be given the chance to describe what a <i>fep</i> is. You will be shown 2 new objects, a <i>wug</i> and a <i>dax</i>. If you would like, you can use these new objects to help you in your description, though you do not need to. Please type your description in the text box.</p>
+    <br>
+    <button onclick="_s.button()">Continue</button>
+  </div>
+
+
+  <div class="slide" id="description">
+    <p>Please describe what is a <i>fep</i>. Here are 2 new objects. Feel free to use them in your description.</p>
+    <div id="references">
+      <div id="column1" style="float:left; margin:0; width:50%"> 
+        <p><i>wug</i></p>
+        <img id="wug" height=100 vspace="20" src="img/EdgePrototype_white_3.svg">
+      </div>
+      <div id="column2" style="float:left; margin:0; width:50%">
+        <p><i>dax</i></p>
+        <img id="dax" height=100 vspace="20" src="img/MidPrototype_black_1.svg">
+      </div>
+    </div>
+    <div id="textbox">
+      <textarea id="text_description" rows="5" cols="100"></textarea>
+    </div>
+    <br>
+    <button onclick="_s.button()">Continue</button>
+    <div class="err">Please type something.</div>
+  </div>
+
+
+  <div class="slide"  id="subj_info">
+    <div class="long_form">
+      <div class="subj_info_title">Additional information</div>
+      <p class="info">Answering these questions is optional, but will help us understand your answers.</p>
+      <p>Did you read the instructions and do you think you did the HIT correctly?</p>
+      <label><input type="radio"  name="assess" value="No"/>No</label>
+      <label><input type="radio"  name="assess" value="Yes"/>Yes</label>
+      <label><input type="radio"  name="assess" value="Confused"/>I was confused</label>
+
+      <p>Were there any problems or bugs in the experiment?</p>
+      <textarea id="problems" rows="2" cols="50"></textarea>
+
+      <p>What do you think is a fair price for the work you did?</p>
+      <textarea id="fairprice" rows="1" cols="10"></textarea>
+
+      <p>Gender:
+        <select id="gender">
+          <label><option value=""/></label>
+          <label><option value="Male"/>Male</label>
+          <label><option value="Female"/>Female</label>
+          <label><option value="Other"/>Other</label>
+        </select>
+      </p>
+
+      <p>Age: <input type="text" id="age"/></p>
+
+      <p>Level Of Education:
+        <select id="education">
+          <label><option value="-1"/></label>
+          <label><option value="0"/>Some High School</label>
+          <label><option value="1"/>Graduated High School</label>
+          <label><option value="2"/>Some College</label>
+          <label><option value="3"/>Graduated College</label>
+          <label><option value="4"/>Hold a higher degree</label>
+        </select>
+      </p>
+
+      <p>Native Language: <input type="text" id="language"/></p>
+      <label>(the language(s) spoken at home when you were a child)</label>
+
+      <p>Did you enjoy the hit?</p>
+      <select id="enjoyment">
+        <label><option value="-1"></option></label>
+        <label><option value="0">Worse than the Average HIT</option></label>
+        <label><option value="1" >An Average HIT</option></label>
+        <label><option value="2">Better than average HIT</option></label>
+      </select>
+
+      <p>We would be interested in any comments you have about this experiment. Please type them here:</p>
+      <textarea id="comments" rows="3" cols="50"></textarea>
+      <br/>
+      <button onclick="_s.submit()">Submit</button>
+    </div>
+  </div>
+
+  <div id="thanks" class="slide js" >
+    <p  class="big">Thanks for your Time!</p>
+  </div>
+
+  <div class="progress">
+    <span>Progress:</span>
+    <div class="bar-wrapper">
+      <div class="bar" width="0%">
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
