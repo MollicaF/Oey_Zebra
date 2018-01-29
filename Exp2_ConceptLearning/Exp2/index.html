@@ -44,7 +44,7 @@
     <div style="float:left; width:20%"><img src="../_shared/images/university.png" alt="UofR colala" height=100 id="colalalogo"></img></div>
     <div style="float:right; width:80%"><p id="colala">The University of Rochester's Computation and Language Lab (colala)</p></div>
     <div style="float:left; margin:0; height:100%">
-    <p id="instruct-text">You will learn what a <i>fep</i> is, then you'll be asked to judge whether new objects are also <i>feps</i>. The HIT should take ~10 minutes. Please pay attention, thanks!</p>
+    <p id="instruct-text">You will learn what a <i>fep</i> is, then you'll be asked to judge whether new objects are also <i>feps</i>. The HIT should take ~5 minutes. Please pay attention, thanks!</p>
     <button id="start_button" type="button">Start Experiment</button>
     <p id="legal">Legal information: By answering the following questions, you are participating in a study being performed by cognitive scientists in the University of Rochester Department of Brain and Cognitive Sciences. If you have questions about this research, please contact Lauren Oey at <a href="mailto://loey@u.rochester.edu">loey@u.rochester.edu</a>. You must be  at least 18 years old to participate. Your participation in this research is voluntary. You may decline to answer any or all of the following questions. You may decline further participation, at any time, without adverse consequences. Your anonymity is assured; the researchers who have requested your participation will not receive any personal information about you.</p>
     </div>
@@ -83,13 +83,12 @@
         </td>
       </tr>
     </table>
-    <p>You will record your answer below each image. Use your best judgement. There will be a total of 6 trials. Thank you!</p>
+    <p>You will record your answer below each object. You will then be provided with feedback. Use your best judgement. There will be a total of 6 trials. Thank you!</p>
     <button onclick="_s.button()">Continue</button>
   </div>
 
-
   <div class="slide" id="trial">
-    <p id="fep_statement"></p>
+    <p id="fep_statement">Here are some <i>feps</i>:</p>
     <div class="present_image">
       <table id="present_feps">
         <td style="margin:0; width:16.6%">
@@ -121,10 +120,13 @@
               <img class="test_image" id="test0">
             </tr>
             <tr>
-              <td class="radioq" id="radioq0">
-                <label><input type="radio"  name="testq0" value="yes"/>yes</label>
-                <label><input type="radio"  name="testq0" value="no"/>no</label>
+              <td class="radioq" id="radioq0" data-fep="NA">
+                <label><input type="radio"  name="testq0" onclick="giveFeedback(0)" value="yes"/>yes</label>
+                <label><input type="radio"  name="testq0" onclick="giveFeedback(0)" value="no"/>no</label>
               </td>
+            </tr>
+            <tr>
+              <img class="feedback" id="feedback0" data-correct="NA" data-order=-1>
             </tr>
           </table>
         </td>
@@ -134,10 +136,13 @@
               <img class="test_image" id="test1">
             </tr>
             <tr>
-              <td class="radioq" id="radioq1">
-                <label><input type="radio"  name="testq1" value="yes"/>yes</label>
-                <label><input type="radio"  name="testq1" value="no"/>no</label>
+              <td class="radioq" id="radioq1" data-fep="NA">
+                <label><input type="radio"  name="testq1" onclick="giveFeedback(1)" value="yes"/>yes</label>
+                <label><input type="radio"  name="testq1" onclick="giveFeedback(1)" value="no"/>no</label>
               </td>
+            </tr>
+            <tr>
+              <img class="feedback" id="feedback1" data-correct="NA" data-order=-1>
             </tr>
           </table>
         </td>
@@ -147,10 +152,13 @@
               <img class="test_image" id="test2">
             </tr>
             <tr>
-              <td class="radioq" id="radioq2">
-                <label><input type="radio"  name="testq2" value="yes"/>yes</label>
-                <label><input type="radio"  name="testq2" value="no"/>no</label>
+              <td class="radioq" id="radioq2" data-fep="NA">
+                <label><input type="radio"  name="testq2" onclick="giveFeedback(2)" value="yes"/>yes</label>
+                <label><input type="radio"  name="testq2" onclick="giveFeedback(2)" value="no"/>no</label>
               </td>
+            </tr>
+            <tr>
+              <img class="feedback" id="feedback2" data-correct="NA" data-order=-1>
             </tr>
           </table>
         </td>
@@ -160,10 +168,13 @@
               <img class="test_image" id="test3">
             </tr>
             <tr>
-              <td class="radioq" id="radioq3">
-                <label><input type="radio"  name="testq3" value="yes"/>yes</label>
-                <label><input type="radio"  name="testq3" value="no"/>no</label>
+              <td class="radioq" id="radioq3" data-fep="NA">
+                <label><input type="radio"  name="testq3" onclick="giveFeedback(3)" value="yes"/>yes</label>
+                <label><input type="radio"  name="testq3" onclick="giveFeedback(3)" value="no"/>no</label>
               </td>
+            </tr>
+            <tr>
+              <img class="feedback" id="feedback3" data-correct="NA" data-order=-1>
             </tr>
           </table>
         </td>
@@ -173,25 +184,31 @@
               <img class="test_image" id="test4">
             </tr>
             <tr>
-              <td class="radioq" id="radioq4">
-                <label><input type="radio"  name="testq4" value="yes"/>yes</label>
-                <label><input type="radio"  name="testq4" value="no"/>no</label>
+              <td class="radioq" id="radioq4" data-fep="NA">
+                <label><input type="radio"  name="testq4" onclick="giveFeedback(4)" value="yes"/>yes</label>
+                <label><input type="radio"  name="testq4" onclick="giveFeedback(4)" value="no"/>no</label>
               </td>
+            </tr>
+            <tr>
+              <img class="feedback" id="feedback4" data-correct="NA" data-order=-1>
             </tr>
           </table>
         </td>
       </tr>
-      <tr> 
+      <tr id="row2"> 
         <td style="margin:0; width:20%">
           <table>
             <tr>
               <img class="test_image" id="test5">
             </tr>
             <tr>
-              <td class="radioq" id="radioq5">
-                <label><input type="radio"  name="testq5" value="yes"/>yes</label>
-                <label><input type="radio"  name="testq5" value="no"/>no</label>
+              <td class="radioq" id="radioq5" data-fep="NA">
+                <label><input type="radio"  name="testq5" onclick="giveFeedback(5)" value="yes"/>yes</label>
+                <label><input type="radio"  name="testq5" onclick="giveFeedback(5)" value="no"/>no</label>
               </td>
+            </tr>
+            <tr>
+              <img class="feedback" id="feedback5" data-correct="NA" data-order=-1>
             </tr>
           </table>
         </td>
@@ -201,10 +218,13 @@
               <img class="test_image" id="test6">
             </tr>
             <tr>
-              <td class="radioq" id="radioq6">
-                <label><input type="radio"  name="testq6" value="yes"/>yes</label>
-                <label><input type="radio"  name="testq6" value="no"/>no</label>
+              <td class="radioq" id="radioq6" data-fep="NA">
+                <label><input type="radio"  name="testq6" onclick="giveFeedback(6)" value="yes"/>yes</label>
+                <label><input type="radio"  name="testq6" onclick="giveFeedback(6)" value="no"/>no</label>
               </td>
+            </tr>
+            <tr>
+              <img class="feedback" id="feedback6" data-correct="NA" data-order=-1>
             </tr>
           </table>
         </td>
@@ -214,10 +234,13 @@
               <img class="test_image" id="test7">
             </tr>
             <tr>
-              <td class="radioq" id="radioq7">
-                <label><input type="radio"  name="testq7" value="yes"/>yes</label>
-                <label><input type="radio"  name="testq7" value="no"/>no</label>
+              <td class="radioq" id="radioq7" data-fep="NA">
+                <label><input type="radio"  name="testq7" onclick="giveFeedback(7)" value="yes"/>yes</label>
+                <label><input type="radio"  name="testq7" onclick="giveFeedback(7)" value="no"/>no</label>
               </td>
+            </tr>
+            <tr>
+              <img class="feedback" id="feedback7" data-correct="NA" data-order=-1>
             </tr>
           </table>
         </td>
@@ -227,10 +250,13 @@
               <img class="test_image" id="test8">
             </tr>
             <tr>
-              <td class="radioq" id="radioq8">
-                <label><input type="radio"  name="testq8" value="yes"/>yes</label>
-                <label><input type="radio"  name="testq8" value="no"/>no</label>
+              <td class="radioq" id="radioq8" data-fep="NA">
+                <label><input type="radio"  name="testq8" onclick="giveFeedback(8)" value="yes"/>yes</label>
+                <label><input type="radio"  name="testq8" onclick="giveFeedback(8)" value="no"/>no</label>
               </td>
+            </tr>
+            <tr>
+              <img class="feedback" id="feedback8" data-correct="NA" data-order=-1>
             </tr>
           </table>
         </td>
@@ -240,10 +266,13 @@
               <img class="test_image" id="test9">
             </tr>
             <tr>
-              <td class="radioq" id="radioq9">
-                <label><input type="radio"  name="testq9" value="yes"/>yes</label>
-                <label><input type="radio"  name="testq9" value="no"/>no</label>
+              <td class="radioq" id="radioq9" data-fep="NA">
+                <label><input type="radio"  name="testq9" onclick="giveFeedback(9)" value="yes"/>yes</label>
+                <label><input type="radio"  name="testq9" onclick="giveFeedback(9)" value="no"/>no</label>
               </td>
+            </tr>
+            <tr>
+              <img class="feedback" id="feedback9" data-correct="NA" data-order=-1>
             </tr>
           </table>
         </td>
@@ -352,3 +381,31 @@
 
 </body>
 </html>
+
+<script>
+  var responseOrder = 0;
+  var giveFeedback = function(buttonNum) {
+    $(":radio[name='testq" + buttonNum + "']").attr("disabled",true);
+    if($('input[name="testq'+buttonNum+'"]:checked').val() != $('#radioq'+buttonNum).data("fep")){
+      $('#feedback'+buttonNum).attr("src", "img/Red_x.png");
+      if($('input[name="testq'+buttonNum+'"]:checked').val() == "yes"){
+        $('#feedback'+buttonNum).css("left", "18px");
+      } else {
+        $('#feedback'+buttonNum).css("left", "62px");
+      }
+      $('#feedback'+buttonNum).data("correct","false");
+    } else {
+      $('#feedback'+buttonNum).attr("src", "img/Green_check.png");
+      if($('input[name="testq'+buttonNum+'"]:checked').val() == "yes"){
+        $('#feedback'+buttonNum).css("left", "18px");
+      } else {
+        $('#feedback'+buttonNum).css("left", "62px");
+      }
+      $('#feedback'+buttonNum).data("correct","true");
+    }
+    $('#feedback'+buttonNum).css("opacity", 1);
+    $('#feedback'+buttonNum).data("order", responseOrder);
+    responseOrder++;
+  }
+</script>
+

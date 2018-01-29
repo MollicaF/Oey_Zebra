@@ -17,6 +17,9 @@ function make_slides(f) {
       for(var i=0; i<instr_sample_size; i++){
         $('#img_example'+i).attr("src", "img/" + instr_sample_order[i]);
       }
+      for(var j=0; j<prototype_images.length; j++){
+        remove(stimuli_images, prototype_images[j]);
+      }
     },
 
     button : function() {
@@ -37,64 +40,40 @@ function make_slides(f) {
     //this gets run only at the beginning of the block
     present_handle : function(stim) {
       $(".err").hide();
-      $('.feedback').hide();
+      $('.feedback').css("opacity", 0);
+      $('.feedback').css("left", "0px");
+      $('.feedback').data("correct", "NA");
+      $('.feedback').data("order", -1);
       $('input:radio').attr("checked", false);
-      var fep = "fep";
-      var fep_txt = fep.italics();
-      this.statement = _.sample([
-        "This is a " + fep_txt + ":",
-        "Here is a " + fep_txt + ":",
-        "Look! It's a " + fep_txt + ":",
-        "Check out this " + fep_txt + ":",
-        "Here is an example of a " + fep_txt + ":",
-        "It's a " + fep_txt + ":",
-      ]);
-      $("#fep_statement").text("");
-      $("#fep_statement").append(this.statement);
+      $('input:radio').attr("disabled", false);
       $("#example"+stimIndex).attr("src", "img/" + stim);
       stimIndex = stimIndex + 1;
-
-      
-      var test_object_order = _.shuffle(test_images);
+    
+      var test_object_order = sample_without_replacement(exp.test_images_len, stimuli_images);
       for(var i=0; i<test_object_order.length; i++){
         $('#test'+i).attr("src", "img/" + test_object_order[i]);
+        if(jQuery.inArray(test_object_order[i], feps) !== -1){
+          $('#radioq'+i).data("fep", "yes");
+        } else {
+          $('#radioq'+i).data("fep", "no");
+        }
+        remove(stimuli_images, test_object_order[i]);
       }
-
+      this.t0 = performance.now();
     },
 
     button : function() {
       var ready = false;
-      if($('input[type=radio]:checked').size() < test_images.length){
+      if($('input[type=radio]:checked').size() < exp.test_images_len){
         $(".err").show();
       } else {
-        var incorrectNum = 0;
-        for(var i=0; i<exp.test_images_len; i++){
-          if(feps.indexOf($('#test'+i).attr('src')) < 0){
-            if($('input[name="testq0"]:checked').val() == "yes"){
-              $('#feedback'+i).show();
-              incorrectNum++;
-            }
-          }
-          else{
-            if($('input[name="testq0"]:checked').val() == "no"){
-              $('#feedback'+i).show();
-              incorrectNum++;
-            }
-          }
-        }
-
+        this.t1 = performance.now();
         this.log_responses();
 
         /* use _stream.apply(this); if and only if there is
         "present" data. (and only *after* responses are logged) */
-        //setTimeout(this.delay_cont, 100);
         _stream.apply(this);
-        //_.delay(delay_cont, 10000);
       }
-    },
-
-    delay_cont : function() {
-      _stream.apply(this);
     },
 
     log_responses : function() {
@@ -102,29 +81,56 @@ function make_slides(f) {
         "trial_type" : "trial",
         "stim" : $('#example'+(stimIndex-1)).attr('src'), //presented exemplar
         "test0" : $('#test0').attr('src'),
+        "fep0": $('#radioq0').data("fep"),
         "response0" : $('input[name="testq0"]:checked').val(),
+        "correct0" : $('#feedback0').data("correct"),
+        "order0": $('#feedback0').data("order"),
         "test1" : $('#test1').attr('src'),
+        "fep1": $('#radioq1').data("fep"),
         "response1" : $('input[name="testq1"]:checked').val(),
+        "correct1" : $('#feedback1').data("correct"),
+        "order1": $('#feedback1').data("order"),
         "test2" : $('#test2').attr('src'),
+        "fep2": $('#radioq2').data("fep"),
         "response2" : $('input[name="testq2"]:checked').val(),
+        "correct2" : $('#feedback2').data("correct"),
+        "order2": $('#feedback2').data("order"),
         "test3" : $('#test3').attr('src'),
+        "fep3": $('#radioq3').data("fep"),
         "response3" : $('input[name="testq3"]:checked').val(),
+        "correct3" : $('#feedback3').data("correct"),
+        "order3": $('#feedback3').data("order"),
         "test4" : $('#test4').attr('src'),
+        "fep4": $('#radioq4').data("fep"),
         "response4" : $('input[name="testq4"]:checked').val(),
+        "correct4" : $('#feedback4').data("correct"),
+        "order4": $('#feedback4').data("order"),
         "test5" : $('#test5').attr('src'),
+        "fep5": $('#radioq5').data("fep"),
         "response5" : $('input[name="testq5"]:checked').val(),
+        "correct5" : $('#feedback5').data("correct"),
+        "order5": $('#feedback5').data("order"),
         "test6" : $('#test6').attr('src'),
+        "fep6": $('#radioq6').data("fep"),
         "response6" : $('input[name="testq6"]:checked').val(),
+        "correct6" : $('#feedback6').data("correct"),
+        "order6": $('#feedback6').data("order"),
         "test7" : $('#test7').attr('src'),
+        "fep7": $('#radioq7').data("fep"),
         "response7" : $('input[name="testq7"]:checked').val(),
+        "correct7" : $('#feedback7').data("correct"),
+        "order7": $('#feedback7').data("order"),
         "test8" : $('#test8').attr('src'),
+        "fep8": $('#radioq8').data("fep"),
         "response8" : $('input[name="testq8"]:checked').val(),
+        "correct8" : $('#feedback8').data("correct"),
+        "order8": $('#feedback8').data("order"),
         "test9" : $('#test9').attr('src'),
+        "fep9": $('#radioq9').data("fep"),
         "response9" : $('input[name="testq9"]:checked').val(),
-        "test10" : $('#test10').attr('src'),
-        "response10" : $('input[name="testq10"]:checked').val(),
-        "test11" : $('#test11').attr('src'),
-        "response11" : $('input[name="testq11"]:checked').val()
+        "correct9" : $('#feedback9').data("correct"),
+        "order9": $('#feedback9').data("order"),
+        "trialTime" : this.t1 - this.t0,
       });
     }
   });
@@ -142,6 +148,7 @@ function make_slides(f) {
 
     start : function() {
       $(".err").hide();
+      this.t0 = performance.now();
     },
 
     button : function() {
@@ -149,15 +156,14 @@ function make_slides(f) {
         $(".err").show();
       }
       else{
-        this.log_responses();
+        this.t1 = performance.now();
+        exp.ling_description = {
+          "desc_response" : $('#text_description').val(),
+          "trialTime" : this.t1 - this.t0
+        };
+
         exp.go();
       }
-    },
-
-    log_responses : function() {
-      exp.ling_description.push({
-        desc_response : $('#text_description').val()
-      })
     }
   });
 
@@ -221,9 +227,6 @@ function init() {
   exp.data_trials = [];
   //make corresponding slides:
 
-  //exp.prototypes = sample_without_replacement(exp.prototypes_len, prototype_images);
-  //exp.test_images = sample_without_replacement(exp.test_images_len, stimuli_images);
-
   exp.slides = make_slides(exp);
   exp.nQs = utils.get_exp_length(); //this does not work if there are stacks of stims (but does work for an experiment with this structure)
                     //relies on structure and slides being defined
@@ -242,6 +245,10 @@ function init() {
     }
   });
 
+  for(var j=0; j<prototype_images.length; j++){
+    remove(stimuli_images, prototype_images[j]);
+  }
+
   exp.go(); //show first slide
 }
 
@@ -252,48 +259,34 @@ var prototype_images = [
   "Draw_white_0.svg",
   "Draw_white_11.svg",
   "Draw_white_33.svg",
-  "Draw_white_31.svg",
   "Draw_white_44.svg",
   "Draw_white_28.svg",
 ]
 
-var test_images = [
-  "Draw_white_19.svg",  //shape = similar, fill = white
-  "Draw_white_21.svg",  //shape = similar, fill = white
-  "Draw_white_28.svg",  //shape = similar, fill = white
-  "Draw_black_15.svg",  //shape = similar, fill = black
-  "Draw_black_16.svg",  //shape = similar, fill = black
-  "Draw_black_44.svg",  //shape = similar, fill = black
-  "Draw_white_29.svg",  //shape = dissimilar, fill = white
-  "Draw_white_43.svg",  //shape = dissimilar, fill = white
-  "Draw_white_10.svg",  //shape = dissimilar, fill = white
-  "Draw_black_23.svg",  //shape = dissimilar, fill = black
-]
-
 var feps = [
-  "img/EdgePrototype_white_1.svg",
-  "img/Draw_white_15.svg",
-  "img/Draw_white_19.svg",
-  "img/MidPrototype_white_1.svg",
-  "img/Draw_white_0.svg",
-  "img/Draw_white_6.svg",
-  "img/Draw_white_39.svg",
-  "img/Draw_white_7.svg",
-  "img/Draw_white_11.svg",
-  "img/Draw_white_21.svg",
-  "img/Draw_white_9.svg",
-  "img/Draw_white_17.svg",
-  "img/Draw_white_33.svg",
-  "img/Draw_white_34.svg",
-  "img/Draw_white_27.svg",
-  "img/Draw_white_30.svg",
-  "img/Draw_white_31.svg",
-  "img/Draw_white_2.svg",
-  "img/Draw_white_28.svg",
-  "img/Draw_white_49.svg",
-  "img/Draw_white_44.svg",
-  "img/Draw_white_32.svg",
-  "img/Draw_white_35.svg",
+  "EdgePrototype_white_1.svg",
+  "Draw_white_15.svg",
+  "Draw_white_19.svg",
+  "MidPrototype_white_1.svg",
+  "Draw_white_0.svg",
+  "Draw_white_6.svg",
+  "Draw_white_39.svg",
+  "Draw_white_7.svg",
+  "Draw_white_11.svg",
+  "Draw_white_21.svg",
+  "Draw_white_9.svg",
+  "Draw_white_17.svg",
+  "Draw_white_33.svg",
+  "Draw_white_34.svg",
+  "Draw_white_27.svg",
+  "Draw_white_30.svg",
+  "Draw_white_31.svg",
+  "Draw_white_2.svg",
+  "Draw_white_28.svg",
+  "Draw_white_49.svg",
+  "Draw_white_44.svg",
+  "Draw_white_32.svg",
+  "Draw_white_35.svg",
 ]
 
 var stimuli_images = [
@@ -407,6 +400,11 @@ function sample_without_replacement(sampleSize, sample){
     return_sample.push(urn.splice(randomIndex, 1)[0]);
   }
   return return_sample;
+}
+
+function remove(array, element){
+  const index = array.indexOf(element);
+  array.splice(index, 1);
 }
 
 
